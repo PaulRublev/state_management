@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
-import 'package:provider/provider.dart';
 
 import 'item_details_view.dart';
 
@@ -34,14 +33,14 @@ class ItemListView extends StatelessWidget {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Consumer<Cart>(builder: (_, state, ___) {
-                    return Text(
-                      state.cartItems.containsKey(item)
-                          ? state.cartItems[item].toString()
-                          : '',
-                      textScaleFactor: 0.9,
-                    );
-                  }),
+                  // Consumer<Cart>(builder: (_, state, ___) {
+                  //   return Text(
+                  //     state.cartItems.containsKey(item)
+                  //         ? state.cartItems[item].toString()
+                  //         : '',
+                  //     textScaleFactor: 0.9,
+                  //   );
+                  // }),
                   const Icon(Icons.shopping_cart_checkout),
                 ],
               ),
