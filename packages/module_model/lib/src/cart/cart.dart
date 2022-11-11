@@ -1,31 +1,30 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../item/sample_item.dart';
 
-class Cart with ChangeNotifier {
-  final Map<SampleItem, int> cartItems = {};
+final cartProvider =
+    StateNotifierProvider<Cart, Map<SampleItem, int>>((ref) => Cart());
+
+class Cart extends StateNotifier<Map<SampleItem, int>> {
+  Cart() : super({});
 
   void add(SampleItem item) {
-    cartItems.addAll({item: 1});
-    notifyListeners();
+    state.addAll({item: 1});
   }
 
   void remove(SampleItem item) {
-    cartItems.remove(item);
-    notifyListeners();
+    state.remove(item);
   }
 
   void increment(SampleItem item) {
-    cartItems[item] = cartItems[item]! + 1;
-    notifyListeners();
+    state[item] = state[item]! + 1;
   }
 
   void decrement(SampleItem item) {
-    if (cartItems[item]! > 1) {
-      cartItems[item] = cartItems[item]! - 1;
+    if (state[item]! > 1) {
+      state[item] = state[item]! - 1;
     } else {
-      cartItems.remove(item);
+      state.remove(item);
     }
-    notifyListeners();
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_model/module_model.dart';
-import 'package:provider/provider.dart';
 
-class ItemDetailsView extends StatelessWidget {
+class ItemDetailsView extends ConsumerWidget {
   const ItemDetailsView({super.key, required this.item});
 
   static const routeName = '/sample_item';
@@ -10,7 +10,7 @@ class ItemDetailsView extends StatelessWidget {
   final SampleItem item;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Item Details'),
@@ -36,27 +36,33 @@ class ItemDetailsView extends StatelessWidget {
                   textScaleFactor: 1.5,
                 ),
               ),
-              Consumer<Cart>(
-                builder: ((context, state, _) => SizedBox(
+              Consumer(
+                builder: ((context, ref, _) => SizedBox(
                       height: 50,
-                      child: state.cartItems.containsKey(item)
+                      child: ref.watch(cartProvider).containsKey(item)
                           ? Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
                                   onPressed: (() {
-                                    if (state.cartItems[item]! > 1) {
-                                      state.decrement(item);
+                                    if (ref.watch(cartProvider)[item]! > 1) {
+                                      ref
+                                          .read(cartProvider.notifier)
+                                          .decrement(item);
                                     } else {
-                                      state.remove(item);
+                                      ref
+                                          .watch(cartProvider.notifier)
+                                          .remove(item);
                                     }
                                   }),
                                   icon: const Icon(Icons.remove_circle_outline),
                                 ),
-                                Text('${state.cartItems[item]}'),
+                                Text('${ref.watch(cartProvider)[item]}'),
                                 IconButton(
                                   onPressed: (() {
-                                    state.increment(item);
+                                    ref
+                                        .read(cartProvider.notifier)
+                                        .increment(item);
                                   }),
                                   icon: const Icon(Icons.add_circle_outline),
                                 ),
@@ -65,17 +71,17 @@ class ItemDetailsView extends StatelessWidget {
                           : null,
                     )),
               ),
-              Consumer<Cart>(
-                builder: (context, state, _) => ElevatedButton(
+              Consumer(
+                builder: (context, ref, _) => ElevatedButton(
                   onPressed: () {
-                    state.cartItems.containsKey(item)
+                    ref.watch(cartProvider).containsKey(item)
                         ? Navigator.of(context).pop()
-                        : state.add(item);
+                        : ref.read(cartProvider.notifier).add(item);
                   },
                   child: Text(
-                    state.cartItems.containsKey(item)
+                    ref.watch(cartProvider).containsKey(item)
                         ? 'Go back'
-                        : 'Add to state',
+                        : 'Add to ref',
                   ),
                 ),
               ),

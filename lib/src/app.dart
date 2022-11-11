@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_model/module_model.dart';
-import 'package:provider/provider.dart';
 
 import 'sample_feature/item_details_view.dart';
 import 'sample_feature/item_list_view.dart';
@@ -12,8 +12,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Cart>(
-      create: (_) => Cart(),
+    return ProviderScope(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         restorationScopeId: 'app',

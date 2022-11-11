@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
-import 'package:provider/provider.dart';
 
 import 'item_details_view.dart';
 
-class ItemListView extends StatelessWidget {
+class ItemListView extends ConsumerWidget {
   ItemListView({super.key});
 
   static const String path = 'assets/images/';
@@ -16,7 +16,7 @@ class ItemListView extends StatelessWidget {
       BlocFactory.instance.mainBloc.itemService.getItemList();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sample Items'),
@@ -26,6 +26,7 @@ class ItemListView extends StatelessWidget {
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           final item = items[index];
+          ref.watch(cartProvider);
 
           return Padding(
             padding: const EdgeInsets.all(10.0),
@@ -34,10 +35,10 @@ class ItemListView extends StatelessWidget {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Consumer<Cart>(builder: (_, state, ___) {
+                  Consumer(builder: (_, ref, ___) {
                     return Text(
-                      state.cartItems.containsKey(item)
-                          ? state.cartItems[item].toString()
+                      ref.watch(cartProvider).containsKey(item)
+                          ? ref.watch(cartProvider)[item].toString()
                           : '',
                       textScaleFactor: 0.9,
                     );
