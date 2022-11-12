@@ -14,7 +14,7 @@ dependencies:
     path: packages/module_business
   module_model:
     path: packages/module_model
-  provider: ^6.0.4
+  flutter_bloc: ^8.1.1
 
 dev_dependencies:
   flutter_test:
