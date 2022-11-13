@@ -5,5 +5,5 @@ import 'src/app.dart';
 
 void main() async {
   BlocFactory.instance.initialize();
-  runApp(const MyApp());
+  runApp(MyApp());
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:module_business/module_business.dart';
 import 'package:module_model/module_model.dart';
 
+import '../cart_redux.dart';
 import 'item_details_view.dart';
 
 class ItemListView extends StatelessWidget {
@@ -20,47 +22,49 @@ class ItemListView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Sample Items'),
       ),
-      body: ListView.builder(
-        restorationId: 'sampleItemListView',
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          final item = items[index];
+      body: StoreConnector<AppState, ViewModel>(
+          converter: ViewModel.fromStore,
+          builder: (context, vm) {
+            return ListView.builder(
+              restorationId: 'sampleItemListView',
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) {
+                final item = items[index];
 
-          return Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ListTile(
-              title: Text(item.name),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Consumer<Cart>(builder: (_, state, ___) {
-                  //   return Text(
-                  //     state.cartItems.containsKey(item)
-                  //         ? state.cartItems[item].toString()
-                  //         : '',
-                  //     textScaleFactor: 0.9,
-                  //   );
-                  // }),
-                  const Icon(Icons.shopping_cart_checkout),
-                ],
-              ),
-              leading: CircleAvatar(
-                foregroundImage: AssetImage(
-                  '$path${item.name.toLowerCase()}.png',
-                ),
-                onForegroundImageError: (exception, stackTrace) {},
-              ),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  ItemDetailsView.routeName,
-                  arguments: {'item': item},
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ListTile(
+                    title: Text(item.name),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          vm.cart.containsKey(item)
+                              ? vm.cart[item].toString()
+                              : '',
+                          textScaleFactor: 0.9,
+                        ),
+                        const Icon(Icons.shopping_cart_checkout),
+                      ],
+                    ),
+                    leading: CircleAvatar(
+                      foregroundImage: AssetImage(
+                        '$path${item.name.toLowerCase()}.png',
+                      ),
+                      onForegroundImageError: (exception, stackTrace) {},
+                    ),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        ItemDetailsView.routeName,
+                        arguments: {'item': item},
+                      );
+                    },
+                  ),
                 );
               },
-            ),
-          );
-        },
-      ),
+            );
+          }),
     );
   }
 }
