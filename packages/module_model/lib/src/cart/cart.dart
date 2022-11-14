@@ -9,22 +9,37 @@ class Cart extends StateNotifier<Map<SampleItem, int>> {
   Cart() : super({});
 
   void add(SampleItem item) {
-    state.addAll({item: 1});
+    final value = Map<SampleItem, int>.from(state);
+    value[item] = 1;
+    state = value;
   }
 
   void remove(SampleItem item) {
-    state.remove(item);
+    final value = Map<SampleItem, int>.from(state);
+    value.remove(item);
+    state = value;
   }
 
   void increment(SampleItem item) {
-    state[item] = state[item]! + 1;
+    final value = Map<SampleItem, int>.from(state);
+    if (value.containsKey(item)) {
+      value[item] = value[item]! + 1;
+    } else {
+      value[item] = 1;
+    }
+    state = value;
   }
 
   void decrement(SampleItem item) {
-    if (state[item]! > 1) {
-      state[item] = state[item]! - 1;
-    } else {
-      state.remove(item);
+    final value = Map<SampleItem, int>.from(state);
+    if (value.containsKey(item)) {
+      final count = value[item]!;
+      if (count < 1) {
+        value.remove(item);
+      } else {
+        value[item] = count - 1;
+      }
     }
+    state  =  value;
   }
 }
