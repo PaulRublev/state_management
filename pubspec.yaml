@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_mobx: ^2.0.6+4
+  mobx: ^2.1.2
   module_business:
     path: packages/module_business
   module_model:
@@ -19,7 +21,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  mobx_codegen: ^2.1.0
+  build_runner: ^2.3.2
   flutter_lints: ^2.0.0
 
 flutter:
