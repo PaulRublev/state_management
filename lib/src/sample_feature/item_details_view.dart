@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:module_model/module_model.dart';
 
-class ItemDetailsView extends ConsumerWidget {
+class ItemDetailsView extends StatelessWidget {
   const ItemDetailsView({super.key, required this.item});
 
   static const routeName = '/sample_item';
@@ -10,7 +10,7 @@ class ItemDetailsView extends ConsumerWidget {
   final SampleItem item;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Item Details'),

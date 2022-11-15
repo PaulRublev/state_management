@@ -5,7 +5,7 @@ import 'package:module_model/module_model.dart';
 
 import 'item_details_view.dart';
 
-class ItemListView extends ConsumerWidget {
+class ItemListView extends StatelessWidget {
   ItemListView({super.key});
 
   static const String path = 'assets/images/';
@@ -16,7 +16,7 @@ class ItemListView extends ConsumerWidget {
       BlocFactory.instance.mainBloc.itemService.getItemList();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sample Items'),
@@ -26,7 +26,6 @@ class ItemListView extends ConsumerWidget {
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
           final item = items[index];
-          ref.watch(cartProvider);
 
           return Padding(
             padding: const EdgeInsets.all(10.0),
